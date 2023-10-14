@@ -1,7 +1,7 @@
 package com.hedza06.saasscheduler.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hedza06.saasscheduler.security.SecurityConfig.AccessViolationResponse;
+import com.hedza06.saasscheduler.security.config.SecurityConfig.AccessViolationResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

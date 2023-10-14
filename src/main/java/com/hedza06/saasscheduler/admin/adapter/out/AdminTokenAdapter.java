@@ -34,6 +34,7 @@ class AdminTokenAdapter implements AdminTokenUseCase {
 
   private String createAdminToken() {
     // TODO: logic for creating admin token goes here...
+    // TODO: make sure to store admin token in encrypted form
     return null;
   }
 }

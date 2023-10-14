@@ -1,4 +1,4 @@
-package com.hedza06.saasscheduler.security;
+package com.hedza06.saasscheduler.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
