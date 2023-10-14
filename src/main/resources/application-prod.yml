@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    name: Postgres PROD Connection
+    url: jdbc:postgresql://localhost:5435/scheduler
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    show-sql: true

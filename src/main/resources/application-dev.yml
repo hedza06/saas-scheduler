@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    name: Postgres DEV Connection
+    url: jdbc:postgresql://localhost:5437/scheduler
+    username: dev
+    password: cXbRyftrqbstH
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    show-sql: true

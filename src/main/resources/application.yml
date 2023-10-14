@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: Saas Scheduler
+  profiles:
+    active: dev
+
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /scheduler-saas.html
