@@ -1,5 +1,6 @@
 package com.hedza06.saasscheduler.admin.application.domain;
 
+import com.hedza06.saasscheduler.admin.adapter.out.util.AdminTokenManager;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +13,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,6 +46,7 @@ public class AdminToken implements Serializable {
   @JoinColumn(name = "app_id", nullable = false)
   private App app;
 
+  @Getter(AccessLevel.NONE)
   @Column(nullable = false, unique = true)
   private String token;
 
@@ -56,4 +59,8 @@ public class AdminToken implements Serializable {
 
   @Column(name = "is_active", nullable = false)
   private Boolean isActive = false;
+
+  public String getToken() throws Exception {
+    return AdminTokenManager.decryptToken(this.token);
+  }
 }

@@ -5,6 +5,7 @@ import com.hedza06.saasscheduler.admin.application.port.in.AppUseCase;
 import com.hedza06.saasscheduler.admin.application.port.in.AppUseCase.AppCreateCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class AppController {
   @PostMapping
   ResponseEntity<Void> create(@RequestBody AppCreateCommand command) {
     appUseCase.create(command);
-    return ResponseEntity.noContent().build();
+    return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @PutMapping("{id}/activate")

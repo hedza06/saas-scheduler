@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public interface AdminTokenUseCase {
-  String create(AdminTokenCreateCommand command);
+  String create(AdminTokenCreateCommand command) throws Exception;
 
   AdminToken findByUsernameWithAppDetails(String username);
 

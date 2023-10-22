@@ -12,4 +12,6 @@ public interface AdminTokenRepository extends JpaRepository<AdminToken, Integer>
       "left join fetch adminToken.app app " +
       "where app.username = :username")
   AdminToken findByUsernameWithApp(@Param("username") String username);
+
+  boolean existsByToken(String token);
 }

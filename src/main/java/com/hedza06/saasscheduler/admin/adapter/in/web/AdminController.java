@@ -31,7 +31,7 @@ public class AdminController {
   @SneakyThrows(ValidationException.class)
   ResponseEntity<AdminTokenResponse> createAdminToken(
       @RequestBody @Valid AdminTokenCreateCommand command
-  ) {
+  ) throws Exception {
     Errors potentialErrors = new BeanPropertyBindingResult(command, "command");
     ValidationUtils.invokeValidator(createTokenValidator, command, potentialErrors);
 

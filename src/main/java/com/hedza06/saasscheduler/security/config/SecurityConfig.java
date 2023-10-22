@@ -1,5 +1,7 @@
 package com.hedza06.saasscheduler.security.config;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,8 +23,17 @@ public class SecurityConfig {
         .cors(AbstractHttpConfigurer::disable)
         .sessionManagement(sessionManagement
             -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
-        .build();
+        .authorizeHttpRequests(
+            authorize -> authorize
+                // TODO: must be admin...
+                .requestMatchers("/api/app/**").hasRole(AuthRole.ADMIN.getSuffix())
+
+                // will be handled on controller level
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/admin/**").permitAll()
+
+                .anyRequest().authenticated()
+        ).build();
   }
 
   @Bean
@@ -31,5 +42,15 @@ public class SecurityConfig {
   }
 
   public record AccessViolationResponse(String message, String localizedMessage) {
+  }
+
+  @Getter
+  @RequiredArgsConstructor
+  public enum AuthRole {
+    ADMIN("ROLE_ADMIN", "ADMIN"),
+    USER("ROLE_USER", "USER");
+
+    private final String role;
+    private final String suffix;
   }
 }
