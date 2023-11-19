@@ -20,7 +20,7 @@ public class AuthController {
 
   @GetMapping("/access-token")
   @PreAuthorize("@adminTokenValidityChecker.isValid(#adminToken)")
-  public ResponseEntity<AccessTokenResponse> getTemporaryAccessToken(
+  ResponseEntity<AccessTokenResponse> getTemporaryAccessToken(
       @RequestHeader(value = "X-ADMIN-TOKEN") String adminToken
   ) {
     String accessToken = authUseCase.getAccessToken(adminToken);

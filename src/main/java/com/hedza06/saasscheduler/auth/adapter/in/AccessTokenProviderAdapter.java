@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 class AccessTokenProviderAdapter implements AccessTokenProviderUseCase {
   @Override
   public String provide() {
+    // TODO: logic for providing temporary (delegate) access token goes here...
     return null;
   }
 }

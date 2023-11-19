@@ -21,7 +21,13 @@ import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.Serializable;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDateTime;
 
 @Entity
@@ -60,7 +66,10 @@ public class AdminToken implements Serializable {
   @Column(name = "is_active", nullable = false)
   private Boolean isActive = false;
 
-  public String getToken() throws Exception {
+  public String getToken()
+      throws InvalidKeySpecException, NoSuchAlgorithmException,
+      NoSuchPaddingException, InvalidKeyException,
+      IllegalBlockSizeException, BadPaddingException {
     return AdminTokenManager.decryptToken(this.token);
   }
 }

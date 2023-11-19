@@ -10,6 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 @Slf4j
 @Service
 @Transactional
@@ -20,7 +27,10 @@ class AdminTokenAdapter implements AdminTokenUseCase {
 
 
   @Override
-  public String create(AdminTokenCreateCommand command) throws Exception {
+  public String create(AdminTokenCreateCommand command)
+      throws InvalidKeySpecException, NoSuchAlgorithmException,
+      NoSuchPaddingException, InvalidKeyException,
+      IllegalBlockSizeException, BadPaddingException {
     var adminToken = new AdminToken();
     var generatedToken = AdminTokenGenerator.generate();
     adminToken.setToken(AdminTokenManager.encryptToken(generatedToken));

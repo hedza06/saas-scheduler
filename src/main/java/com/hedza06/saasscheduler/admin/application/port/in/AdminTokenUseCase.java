@@ -5,8 +5,18 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 public interface AdminTokenUseCase {
-  String create(AdminTokenCreateCommand command) throws Exception;
+  String create(AdminTokenCreateCommand command)
+      throws InvalidKeySpecException, NoSuchAlgorithmException,
+      NoSuchPaddingException, InvalidKeyException,
+      IllegalBlockSizeException, BadPaddingException;
 
   AdminToken findByUsernameWithAppDetails(String username);
 
