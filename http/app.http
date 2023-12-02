@@ -1,0 +1,16 @@
+### Creating new application
+POST http://localhost:8080/api/app
+Authorization: Basic hedza06 hedza123
+Content-Type: application/json
+
+{
+    "username": "app01",
+    "password": "app01test10",
+    "name": "App 01"
+}
+
+
+### Activating application by id
+PUT http://localhost:8080/api/app/1/activate
+Content-Type: application/json
+Authorization: Basic hedza06 hedza123

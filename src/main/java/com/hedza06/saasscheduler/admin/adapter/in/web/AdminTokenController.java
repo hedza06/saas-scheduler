@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
-public class AdminController {
+public class AdminTokenController {
 
   private final AdminTokenCreateValidator createTokenValidator;
   private final AdminTokenUseCase adminTokenUseCase;
 
 
-  @PostMapping("token")
+  @PostMapping("token") // TODO: Implement throttling mechanism!
   @SneakyThrows(ValidationException.class)
   ResponseEntity<AdminTokenResponse> createAdminToken(
       @RequestBody @Valid AdminTokenCreateCommand command

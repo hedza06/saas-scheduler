@@ -1,0 +1,9 @@
+### Create Admin Token for specific app
+### Used by external user/app (credentials created in app.http)
+POST http://localhost:8080/api/admin/token
+Content-Type: application/json
+
+{
+    "username": "app01",
+    "password": "app01test10"
+}
