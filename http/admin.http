@@ -4,6 +4,6 @@ POST http://localhost:8080/api/admin/token
 Content-Type: application/json
 
 {
-    "username": "app02",
-    "password": "app02test02"
+    "username": "app01",
+    "password": "app01test01"
 }
