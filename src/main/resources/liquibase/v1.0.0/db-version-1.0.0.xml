@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- change sets -->
+    <include
+            file="changesets/20231202135400_create_app_sequence.xml"
+            relativeToChangelogFile="true"/>
+    <include
+            file="changesets/20231202135500_create_app_table.xml"
+            relativeToChangelogFile="true"/>
+
+    <include
+            file="changesets/20231202140600_create_admin_token_sequence.xml"
+            relativeToChangelogFile="true"/>
+    <include
+            file="changesets/20231202140700_create_admin_token_table.xml"
+            relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

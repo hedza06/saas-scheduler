@@ -33,7 +33,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     return respondWith(HttpStatus.BAD_REQUEST, errorResponse);
   }
 
-  @ExceptionHandler(ValidationException.class)
+  @ExceptionHandler(EntityNotFoundException.class)
   protected ResponseEntity<Object> handleEntityNotFoundError(EntityNotFoundException ex) {
     var errorResponse = new ApiErrorResponse(ex.getMessage(), emptyList());
     return respondWith(HttpStatus.BAD_REQUEST, errorResponse);

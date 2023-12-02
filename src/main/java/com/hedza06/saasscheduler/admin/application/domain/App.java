@@ -46,7 +46,7 @@ public class App implements Serializable {
 
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "created_at", nullable = false)
-  private LocalDateTime createdAt;
+  private LocalDateTime createdAt = LocalDateTime.now();
 
   @Column(name = "is_active", nullable = false)
   private Boolean isActive = false;

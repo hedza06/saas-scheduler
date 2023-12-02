@@ -3,7 +3,8 @@ spring:
     name: Saas Scheduler
   profiles:
     active: dev
-
+  liquibase:
+    change-log: classpath:liquibase/master.xml
 
 springdoc:
   api-docs:

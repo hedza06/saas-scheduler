@@ -19,6 +19,8 @@
 		<java.version>21</java.version>
         <openapi.version>2.1.0</openapi.version>
         <spring-security-core.version>6.1.4</spring-security-core.version>
+        <liquibase-core.version>4.25.0</liquibase-core.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
 	</properties>
 
 	<dependencies>
@@ -40,7 +42,19 @@
             <version>${parent.version}</version>
         </dependency>
 
-		<dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
+        </dependency>
+
+
+        <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>

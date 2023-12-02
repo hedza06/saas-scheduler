@@ -29,7 +29,7 @@ public class SecurityConfig {
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
         .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-        .httpBasic(withDefaults()) // fixme: Do not use in production environment!
+        .httpBasic(withDefaults()) // Do not use in production environment!
         .build();
   }
 
@@ -45,10 +45,14 @@ public class SecurityConfig {
         )
         .authorizeHttpRequests(
             authorize -> authorize
+                .requestMatchers(
+                    "/api-docs/**", "/scheduler-saas.html", "/swagger-ui/**"
+                ).permitAll()
+
                 // will be handled on controller level (pre-authorized)
                 .requestMatchers("/api/auth/**").permitAll()
 
-                // "Open" API (requests correct credentials)
+                // "Open" API (requires correct credentials)
                 .requestMatchers("/api/admin/**").permitAll()
 
                 .anyRequest().authenticated()

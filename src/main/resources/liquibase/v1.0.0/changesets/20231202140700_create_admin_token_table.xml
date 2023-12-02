@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="20231202140700" author="hedza06">
+        <createTable tableName="admin_token">
+            <column name="id" type="int">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="app_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="datetime"/>
+            <column name="is_active" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="admin_token"
+                baseColumnNames="app_id"
+                constraintName="fk_admin_token_app_id_key"
+                referencedTableName="app"
+                referencedColumnNames="id"/>
+
+        <createIndex tableName="admin_token" indexName="idx_admin_token_app_id">
+            <column name="app_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createIndex>
+
+    </changeSet>
+</databaseChangeLog>
