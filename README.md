@@ -1,82 +1,65 @@
-# Read Me First
-The following was discovered as part of building this project:
+# Scheduler as a Service
 
-* The original package name 'com.hedza06.saas-scheduler' is invalid and this project uses 'com.hedza06.saasscheduler' instead.
+Scheduler as a Service is a project that allows managing external scheduled
+jobs for your application.
 
-# Getting Started
+The idea is to have UI components and an administrator who is responsible for
+creating credentials for external apps.
 
-### Reference Documentation
-For further reference, please consider the following sections:
+After creating the credentials, an external user (app) can generate an admin token,
+which is used only for obtaining an additional access (short-lived) token.
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.1.4/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.1.4/maven-plugin/reference/html/#build-image)
-* [GraalVM Native Image Support](https://docs.spring.io/spring-boot/docs/3.1.4/reference/html/native-image.html#native-image)
-* [Spring Configuration Processor](https://docs.spring.io/spring-boot/docs/3.1.4/reference/htmlsingle/index.html#appendix.configuration-metadata.annotation-processor)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/3.1.4/reference/htmlsingle/index.html#web)
-* [Spring Security](https://docs.spring.io/spring-boot/docs/3.1.4/reference/htmlsingle/index.html#web.security)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/3.1.4/reference/htmlsingle/index.html#data.sql.jpa-and-spring-data)
+Short-lived tokens are intended to be used for managing the scheduled jobs by the external users.
 
-### Guides
-The following guides illustrate how to use some features concretely:
+## Development Phases
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Securing a Web Application](https://spring.io/guides/gs/securing-web/)
-* [Spring Boot and OAuth2](https://spring.io/guides/tutorials/spring-boot-oauth2/)
-* [Authenticating a User with LDAP](https://spring.io/guides/gs/authenticating-ldap/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+For developing this project, I'm using (as the only contributor) the following tech stack:
 
-### Additional Links
-These additional references should also help you:
+- Java 21 / Spring Boot
+- JPA & Hibernate
+- PostgreSQL database
+- Spring Quartz Scheduler
 
-* [Configure AOT settings in Build Plugin](https://docs.spring.io/spring-boot/docs/3.1.4/maven-plugin/reference/htmlsingle/#aot)
+Below, you can find the project roadmap (development phases).
 
-## GraalVM Native Support
+### Phase I (done):
 
-This project has been configured to let you generate either a lightweight container or a native executable.
-It is also possible to run your tests in a native image.
+- ~~Create project structure~~
+- ~~Create endpoints for creating and activating an external user/app (only for admins)~~
+- ~~Create endpoints for generating an Admin Token for a specific user/app~~
+- ~~Implement basic security rules~~
 
-### Lightweight Container with Cloud Native Buildpacks
-If you're already familiar with Spring Boot container images support, this is the easiest way to get started.
-Docker should be installed and configured on your machine prior to creating the image.
+### Phase II (in progress):
 
-To create the image, run the following goal:
+- Create scheduled jobs using REST API
+- Implement "force run" for scheduled jobs using REST API
+- Use Spring Quartz Scheduler for managing scheduled jobs
 
-```
-$ ./mvnw spring-boot:build-image -Pnative
-```
+### Phase III:
 
-Then, you can run the app like any other container:
+- Cover the app with unit/integration tests
+- Develop the User Interface
+- Implement JWT Authentication for UI users
 
-```
-$ docker run --rm -p 8080:8080 saas-scheduler:0.0.1-SNAPSHOT
-```
+### Phase IV:
 
-### Executable with Native Build Tools
-Use this option if you want to explore more options such as running your tests in a native image.
-The GraalVM `native-image` compiler should be installed and configured on your machine.
+- Test the application
+- Support multiple deployments (+ Cloud)
+- Find someone who would like to use this tool
 
-NOTE: GraalVM 22.3+ is required.
+## Contribution/Suggestions
 
-To create the executable, run the following goal:
+If someone is interested in contributing or has some suggestions,
+please contact me via email at hedzaprog@gmail.com.
 
-```
-$ ./mvnw native:compile -Pnative
-```
+## Author
 
-Then, you can run the app as follows:
-```
-$ target/saas-scheduler
-```
-
-You can also run your existing tests suite in a native image.
-This is an efficient way to validate the compatibility of your application.
-
-To run your existing tests in a native image, run the following goal:
-
-```
-$ ./mvnw test -PnativeTest
-```
-
+Heril Muratović  
+Software Engineer  
+<br>
+**Mobile**: +38269657962  
+**E-mail**: hedzaprog@gmail.com  
+**Skype**: hedza06  
+**Twitter**: hedzakirk  
+**LinkedIn**: [Heril Muratović](https://www.linkedin.com/in/heril-muratovi%C4%87-021097132/)  
+**StackOverflow**: [Heril Muratovic](https://stackoverflow.com/users/4078505/heril-muratovic)
