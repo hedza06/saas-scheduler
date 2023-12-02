@@ -35,12 +35,13 @@ public class AdminTokenCreateValidator implements Validator {
     AdminToken adminToken = adminTokenUseCase.findByUsernameWithAppDetails(providedUsername);
     if (adminToken != null
         && adminToken.getApp() != null
-        && passwordEncoder.matches(providedPassword, adminToken.getApp().getPassword())
+        && !passwordEncoder.matches(providedPassword, adminToken.getApp().getPassword())
     ) {
       errors.rejectValue(
           "username",
           "token.already-exists",
-          "Token for provided username and password already exists"
+          "Token for provided username and password already exists " +
+              "or password is invalid"
       );
     }
   }

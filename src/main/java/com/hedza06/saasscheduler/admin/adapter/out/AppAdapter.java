@@ -2,8 +2,8 @@ package com.hedza06.saasscheduler.admin.adapter.out;
 
 import com.hedza06.saasscheduler.admin.adapter.out.persistence.AppRepository;
 import com.hedza06.saasscheduler.admin.application.domain.App;
-import com.hedza06.saasscheduler.common.error.exception.EntityNotFoundException;
 import com.hedza06.saasscheduler.admin.application.port.in.AppUseCase;
+import com.hedza06.saasscheduler.common.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,5 +40,11 @@ class AppAdapter implements AppUseCase {
         .orElseThrow(EntityNotFoundException::new);
 
     app.setIsActive(true);
+  }
+
+  @Override
+  public App getByUsername(String username) {
+    var id = appRepository.findIdByUsername(username);
+    return appRepository.getReferenceById(id);
   }
 }

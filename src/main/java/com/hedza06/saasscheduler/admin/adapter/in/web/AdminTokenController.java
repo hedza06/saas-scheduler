@@ -27,7 +27,7 @@ public class AdminTokenController {
   private final AdminTokenUseCase adminTokenUseCase;
 
 
-  @PostMapping("token") // TODO: Implement throttling mechanism!
+  @PostMapping("token")
   @SneakyThrows(ValidationException.class)
   ResponseEntity<AdminTokenResponse> createAdminToken(
       @RequestBody @Valid AdminTokenCreateCommand command

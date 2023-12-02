@@ -1,5 +1,6 @@
 package com.hedza06.saasscheduler.admin.application.port.in;
 
+import com.hedza06.saasscheduler.admin.application.domain.App;
 import com.hedza06.saasscheduler.common.error.exception.EntityNotFoundException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,8 @@ public interface AppUseCase {
   void create(AppCreateCommand command);
 
   void activate(Integer id) throws EntityNotFoundException;
+
+  App getByUsername(String username);
 
   record AppCreateCommand(
       @NotNull(message = "Username is required")

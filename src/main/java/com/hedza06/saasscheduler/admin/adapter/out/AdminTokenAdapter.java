@@ -5,6 +5,7 @@ import com.hedza06.saasscheduler.admin.adapter.out.util.AdminTokenGenerator;
 import com.hedza06.saasscheduler.admin.adapter.out.util.AdminTokenManager;
 import com.hedza06.saasscheduler.admin.application.domain.AdminToken;
 import com.hedza06.saasscheduler.admin.application.port.in.AdminTokenUseCase;
+import com.hedza06.saasscheduler.admin.application.port.in.AppUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.security.spec.InvalidKeySpecException;
 class AdminTokenAdapter implements AdminTokenUseCase {
 
   private final AdminTokenRepository adminTokenRepository;
+  private final AppUseCase appUseCase;
 
 
   @Override
@@ -31,9 +33,12 @@ class AdminTokenAdapter implements AdminTokenUseCase {
       throws InvalidKeySpecException, NoSuchAlgorithmException,
       NoSuchPaddingException, InvalidKeyException,
       IllegalBlockSizeException, BadPaddingException {
-    var adminToken = new AdminToken();
     var generatedToken = AdminTokenGenerator.generate();
+
+    var app = appUseCase.getByUsername(command.username());
+    var adminToken = new AdminToken();
     adminToken.setToken(AdminTokenManager.encryptToken(generatedToken));
+    adminToken.setApp(app);
 
     adminTokenRepository.save(adminToken);
     return adminToken.getToken();
@@ -43,5 +48,11 @@ class AdminTokenAdapter implements AdminTokenUseCase {
   @Transactional(readOnly = true)
   public AdminToken findByUsernameWithAppDetails(String username) {
     return adminTokenRepository.findByUsernameWithApp(username);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public boolean existsByToken(String token) {
+    return adminTokenRepository.existsByToken(token);
   }
 }

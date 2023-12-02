@@ -20,6 +20,8 @@ public interface AdminTokenUseCase {
 
   AdminToken findByUsernameWithAppDetails(String username);
 
+  boolean existsByToken(String token);
+
   record AdminTokenCreateCommand(
       @NotNull(message = "Username is required")
       @NotEmpty(message = "Username could not be empty")

@@ -3,6 +3,7 @@ package com.hedza06.saasscheduler.security.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,18 +14,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
   @Bean
   @Order(1)
   public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
     return http
-        .securityMatcher("/api/app/**")
+        .securityMatcher(AntPathRequestMatcher.antMatcher("/api/app/**"))
+        .csrf(AbstractHttpConfigurer::disable)
+        .cors(AbstractHttpConfigurer::disable)
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
@@ -66,14 +71,14 @@ public class SecurityConfig {
   }
 
   @Bean
-  public InMemoryUserDetailsManager userDetailsService() {
-    var user = User.withDefaultPasswordEncoder()
+  public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
+    var userDetails = User.builder()
         .username("hedza06")
-        .password(passwordEncoder().encode("hedza123"))
+        .password(passwordEncoder.encode("hedza123"))
         .roles("ADMIN")
         .build();
 
-    return new InMemoryUserDetailsManager(user);
+    return new InMemoryUserDetailsManager(userDetails);
   }
 
   public record AccessViolationResponse(String message, String localizedMessage) {
