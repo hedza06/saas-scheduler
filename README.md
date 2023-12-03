@@ -22,14 +22,15 @@ For developing this project, I'm using (as the only contributor) the following t
 
 Below, you can find the project roadmap (development phases).
 
-### Phase I (done):
+### Phase I (in progress):
 
 - ~~Create project structure~~
 - ~~Create endpoints for creating and activating an external user/app (only for admins)~~
 - ~~Create endpoints for generating an Admin Token for a specific user/app~~
 - ~~Implement basic security rules~~
+- Create endpoint for generating temporary access token (JWT)
 
-### Phase II (in progress):
+### Phase II:
 
 - Create scheduled jobs using REST API
 - Implement "force run" for scheduled jobs using REST API
