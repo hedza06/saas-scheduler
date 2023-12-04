@@ -2,6 +2,7 @@ package com.hedza06.saasscheduler.auth.adapter.in.web;
 
 import com.hedza06.saasscheduler.auth.application.port.in.AuthUseCase;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,12 +19,13 @@ public class AuthController {
   private final AuthUseCase authUseCase;
 
 
+  @SneakyThrows
   @GetMapping("/access-token")
   @PreAuthorize("@adminTokenValidityChecker.isValid(#adminToken)")
   ResponseEntity<AccessTokenResponse> getTemporaryAccessToken(
       @RequestHeader(value = "X-ADMIN-TOKEN") String adminToken
   ) {
-    String accessToken = authUseCase.getAccessToken(adminToken);
+    var accessToken = authUseCase.getAccessToken(adminToken);
     return new ResponseEntity<>(new AccessTokenResponse(accessToken), HttpStatus.OK);
   }
 

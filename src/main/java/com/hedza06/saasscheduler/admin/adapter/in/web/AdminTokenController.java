@@ -27,11 +27,9 @@ public class AdminTokenController {
   private final AdminTokenUseCase adminTokenUseCase;
 
 
+  @SneakyThrows
   @PostMapping("token")
-  @SneakyThrows(ValidationException.class)
-  ResponseEntity<AdminTokenResponse> createAdminToken(
-      @RequestBody @Valid AdminTokenCreateCommand command
-  ) throws Exception {
+  ResponseEntity<AdminTokenResponse> create(@RequestBody @Valid AdminTokenCreateCommand command) {
     Errors potentialErrors = new BeanPropertyBindingResult(command, "command");
     ValidationUtils.invokeValidator(createTokenValidator, command, potentialErrors);
 

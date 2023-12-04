@@ -11,3 +11,7 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /scheduler-saas.html
+
+jwt:
+  secret: dXh5bldWUVBJNFhrcFlIckJ0dEF6VnluUGNvUGR3MDY=
+  validityInMinutes: 15

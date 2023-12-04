@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 @Slf4j
 @Service
@@ -46,5 +49,11 @@ class AppAdapter implements AppUseCase {
   public App getByUsername(String username) {
     var id = appRepository.findIdByUsername(username);
     return appRepository.getReferenceById(id);
+  }
+
+  @Override
+  public Optional<String> findNameByAdminToken(String token) {
+    var appNames = appRepository.findNameByAdminToken(token);
+    return isNotEmpty(appNames) ? Optional.of(appNames.getFirst()) : Optional.empty();
   }
 }

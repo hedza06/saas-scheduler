@@ -35,12 +35,12 @@ Below, you can find the project roadmap (development phases).
 - Create scheduled jobs using REST API
 - Implement "force run" for scheduled jobs using REST API
 - Use Spring Quartz Scheduler for managing scheduled jobs
+- Implement JWT Authentication Filter
 
 ### Phase III:
 
 - Cover the app with unit/integration tests
 - Develop the User Interface
-- Implement JWT Authentication for UI users
 
 ### Phase IV:
 

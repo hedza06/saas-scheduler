@@ -1,6 +1,7 @@
 package com.hedza06.saasscheduler.common.error.handler;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hedza06.saasscheduler.auth.application.exceptions.AdminTokenNotFoundException;
 import com.hedza06.saasscheduler.common.error.exception.EntityNotFoundException;
 import com.hedza06.saasscheduler.common.error.exception.ValidationException;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +36,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(EntityNotFoundException.class)
   protected ResponseEntity<Object> handleEntityNotFoundError(EntityNotFoundException ex) {
+    var errorResponse = new ApiErrorResponse(ex.getMessage(), emptyList());
+    return respondWith(HttpStatus.BAD_REQUEST, errorResponse);
+  }
+
+  @ExceptionHandler(AdminTokenNotFoundException.class)
+  protected ResponseEntity<Object> handleAdminTokenNotFoundError(AdminTokenNotFoundException ex) {
     var errorResponse = new ApiErrorResponse(ex.getMessage(), emptyList());
     return respondWith(HttpStatus.BAD_REQUEST, errorResponse);
   }

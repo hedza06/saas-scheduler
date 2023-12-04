@@ -65,6 +65,9 @@ public class SecurityConfig {
         .build();
   }
 
+  // TODO: define new security filter chain bean that will
+  //  verify JWT token from Security Context Holder
+
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
