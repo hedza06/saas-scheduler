@@ -15,3 +15,8 @@ springdoc:
 jwt:
   secret: dXh5bldWUVBJNFhrcFlIckJ0dEF6VnluUGNvUGR3MDY=
   validityInMinutes: 15
+
+# Not for production use
+security:
+  username: hedza06
+  password: hedza123
