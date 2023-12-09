@@ -1,5 +1,6 @@
 package com.hedza06.saasscheduler.security.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -22,6 +23,13 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+  @Value("${security.username}")
+  private String username;
+
+  @Value("${security.password}")
+  private String password;
+
 
   @Bean
   @Order(1)
@@ -76,8 +84,8 @@ public class SecurityConfig {
   @Bean
   public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
     var userDetails = User.builder()
-        .username("hedza06")
-        .password(passwordEncoder.encode("hedza123"))
+        .username(username)
+        .password(passwordEncoder.encode(password))
         .roles("ADMIN")
         .build();
 
