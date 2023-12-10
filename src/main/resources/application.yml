@@ -6,6 +6,12 @@ spring:
   liquibase:
     change-log: classpath:liquibase/master.xml
 
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    overwrite-existing-jobs: true
+
 springdoc:
   api-docs:
     path: /api-docs
@@ -20,3 +26,4 @@ jwt:
 security:
   username: hedza06
   password: hedza123
+
