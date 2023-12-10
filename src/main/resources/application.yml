@@ -3,6 +3,7 @@ spring:
     name: Saas Scheduler
   profiles:
     active: dev
+
   liquibase:
     change-log: classpath:liquibase/master.xml
 
@@ -11,6 +12,8 @@ spring:
     jdbc:
       initialize-schema: never
     overwrite-existing-jobs: true
+    properties:
+      org.quartz.threadPool.threadCount: 5
 
 springdoc:
   api-docs:

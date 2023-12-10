@@ -1,0 +1,11 @@
+### Creating scheduled Job
+POST http://localhost:8080/api/job-creator/create
+Content-Type: application/json
+Authorization: jwt-token-goes-here
+
+{
+    "definition": "* * 1 * *",
+    "description": "scheduled-job-name",
+    "url": "target-url-goes-here",
+    "requestPayload": {}
+}
