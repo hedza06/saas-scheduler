@@ -21,7 +21,7 @@ public class JobCreatorController {
   private final JobCreatorUseCase jobCreatorUseCase;
 
 
-  @PostMapping("/create")
+  @PostMapping("create")
   @SneakyThrows(SchedulerException.class)
   ResponseEntity<JobCreateResponse> create(@Valid @RequestBody JobCreateCommand command) {
     var jobIdentity = jobCreatorUseCase.create(command);

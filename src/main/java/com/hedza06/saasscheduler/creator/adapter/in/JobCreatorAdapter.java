@@ -28,7 +28,7 @@ class JobCreatorAdapter implements JobCreatorUseCase {
     var jobDetail = createJobDetail(createCommand);
     var jobTrigger = createJobTrigger(createCommand, jobDetail);
 
-    scheduler.scheduleJob(jobTrigger);
+    scheduler.scheduleJob(jobDetail, jobTrigger);
 
     return jobDetail.getKey().getName();
   }
@@ -39,7 +39,7 @@ class JobCreatorAdapter implements JobCreatorUseCase {
     jobData.put("requestBody", createCommand.requestPayload());
 
     return JobBuilder.newJob(HttpJobExecutor.class)
-        .withIdentity(UUID.randomUUID().toString(), "app-name-here+job")
+        .withIdentity(UUID.randomUUID().toString(), "app-name-here")
         .withDescription(createCommand.description() + "_JOB_DETAIL")
         .setJobData(jobData)
         .storeDurably()
@@ -49,7 +49,7 @@ class JobCreatorAdapter implements JobCreatorUseCase {
   private Trigger createJobTrigger(JobCreateCommand createCommand, JobDetail jobDetail) {
     return TriggerBuilder.newTrigger()
         .forJob(jobDetail)
-        .withIdentity(jobDetail.getKey().getName(), "app-name-here+trigger")
+        .withIdentity(jobDetail.getKey().getName(), "app-name-here")
         .withDescription(createCommand.description() + "_CRON_TRIGGER")
         .startAt(Date.from(Instant.now()))
         .withSchedule(CronScheduleBuilder.cronSchedule(createCommand.definition()))

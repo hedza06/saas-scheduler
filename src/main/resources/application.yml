@@ -14,6 +14,8 @@ spring:
     overwrite-existing-jobs: true
     properties:
       org.quartz.threadPool.threadCount: 5
+      org.quartz.jobStore.isClustered: false
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
 
 springdoc:
   api-docs:

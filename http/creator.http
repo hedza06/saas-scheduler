@@ -4,8 +4,10 @@ Content-Type: application/json
 Authorization: jwt-token-goes-here
 
 {
-    "definition": "* * 1 * *",
+    "definition": "0 0/10 * * * ?",
     "description": "scheduled-job-name",
-    "url": "target-url-goes-here",
-    "requestPayload": {}
+    "url": "http://localhost:8080/test",
+    "requestPayload": {
+        "param1": "value1"
+    }
 }
