@@ -22,30 +22,30 @@ For developing this project, I'm using (as the only contributor) the following t
 
 Below, you can find the project roadmap (development phases).
 
-### Phase I (in progress):
+### Phase I (done):
 
 - ~~Create project structure~~
 - ~~Create endpoints for creating and activating an external user/app (only for admins)~~
 - ~~Create endpoints for generating an Admin Token for a specific user/app~~
 - ~~Implement basic security rules~~
-- Create endpoint for generating temporary access token (JWT)
+- ~~Create endpoint for generating temporary access token (JWT)~~
 
-### Phase II:
+### Phase II (In progress):
 
-- Create scheduled jobs using REST API
-- Implement "force run" for scheduled jobs using REST API
-- Use Spring Quartz Scheduler for managing scheduled jobs
-- Implement JWT Authentication Filter
+- ~~Create scheduled HTTP jobs using REST API~~
+- Implement "force run" for HTTP scheduled jobs using REST API
+- ~~Use Spring Quartz Scheduler for managing scheduled jobs~~
+- ~~Implement JWT Authentication Filter for creating jobs~~
 
 ### Phase III:
 
 - Cover the app with unit/integration tests
-- Develop the User Interface
+- Support event-based scheduled jobs
+- Develop User Interface
 
 ### Phase IV:
 
 - Test the application
-- Support multiple deployments (+ Cloud)
 - Find someone who would like to use this tool
 
 ## Contribution/Suggestions

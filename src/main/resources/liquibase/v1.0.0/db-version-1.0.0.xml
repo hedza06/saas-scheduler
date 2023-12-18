@@ -20,4 +20,8 @@
             file="changesets/20231202140700_create_admin_token_table.xml"
             relativeToChangelogFile="true"/>
 
+    <include
+            file="changesets/20231210221800_create_quartz_schema.xml"
+            relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

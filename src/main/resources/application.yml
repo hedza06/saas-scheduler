@@ -3,8 +3,19 @@ spring:
     name: Saas Scheduler
   profiles:
     active: dev
+
   liquibase:
     change-log: classpath:liquibase/master.xml
+
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: never
+    overwrite-existing-jobs: true
+    properties:
+      org.quartz.threadPool.threadCount: 5
+      org.quartz.jobStore.isClustered: false
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
 
 springdoc:
   api-docs:
@@ -20,3 +31,4 @@ jwt:
 security:
   username: hedza06
   password: hedza123
+

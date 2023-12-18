@@ -1,5 +1,6 @@
 package com.hedza06.saasscheduler.security.config;
 
+import com.hedza06.saasscheduler.security.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -50,6 +52,7 @@ public class SecurityConfig {
   @Order(2)
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
+        .securityMatcher("/api/auth/**", "/api/admin/**")
         .csrf(AbstractHttpConfigurer::disable)
         .cors(AbstractHttpConfigurer::disable)
         .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
@@ -73,8 +76,22 @@ public class SecurityConfig {
         .build();
   }
 
-  // TODO: define new security filter chain bean that will
-  //  verify JWT token from Security Context Holder
+  @Bean
+  @Order(3)
+  public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http, JwtFilter jwtFilter)
+      throws Exception {
+    return http
+        .securityMatcher("/api/job-creator/**")
+        .csrf(AbstractHttpConfigurer::disable)
+        .cors(AbstractHttpConfigurer::disable)
+        .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        )
+        .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
+  }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
