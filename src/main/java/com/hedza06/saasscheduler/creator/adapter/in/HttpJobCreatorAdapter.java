@@ -12,14 +12,20 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
+
+import static java.util.Collections.singletonList;
+import static org.apache.commons.collections4.MapUtils.isNotEmpty;
 
 @Service
 @RequiredArgsConstructor
-class JobCreatorAdapter implements JobCreatorUseCase {
+class HttpJobCreatorAdapter implements JobCreatorUseCase {
 
   private final Scheduler scheduler;
 
@@ -35,8 +41,9 @@ class JobCreatorAdapter implements JobCreatorUseCase {
 
   private JobDetail createJobDetail(JobCreateCommand createCommand) {
     var jobData = new JobDataMap();
-    jobData.put("url", createCommand.url());
-    jobData.put("requestBody", createCommand.requestPayload());
+    jobData.put(HttpJobExecutor.URL, createCommand.url());
+    putRequestBodyIfExists(jobData, createCommand.requestBody());
+    putRequestHeadersIfExists(jobData, createCommand.requestHeaders());
 
     return JobBuilder.newJob(HttpJobExecutor.class)
         .withIdentity(UUID.randomUUID().toString(), "app-name-here")
@@ -54,5 +61,21 @@ class JobCreatorAdapter implements JobCreatorUseCase {
         .startAt(Date.from(Instant.now()))
         .withSchedule(CronScheduleBuilder.cronSchedule(createCommand.definition()))
         .build();
+  }
+
+  private void putRequestBodyIfExists(JobDataMap jobDataMap, Map<String, Object> requestBody) {
+    if (isNotEmpty(requestBody)) {
+      jobDataMap.put(HttpJobExecutor.REQUEST_BODY, requestBody);
+    }
+  }
+
+  private void putRequestHeadersIfExists(JobDataMap jobDataMap,
+                                         Map<String, String> requestHeaders) {
+    if (isNotEmpty(requestHeaders)) {
+      MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+      requestHeaders.forEach((key, value) -> headers.put(key, singletonList(value)));
+
+      jobDataMap.put(HttpJobExecutor.REQUEST_HEADERS, headers);
+    }
   }
 }

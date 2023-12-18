@@ -27,7 +27,9 @@ public interface JobCreatorUseCase {
       @NotBlank(message = "Invalid URL")
       String url,
 
-      HashMap<String, Object> requestPayload
+      HashMap<String, String> requestHeaders,
+
+      HashMap<String, Object> requestBody
   ) {
   }
 }
