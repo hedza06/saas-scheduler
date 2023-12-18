@@ -1,7 +1,7 @@
 ### Creating scheduled Job
 POST http://localhost:8080/api/job-creator/create
 Content-Type: application/json
-Authorization: jwt-token-goes-here
+Authorization: Bearer jwt-token-goes-here
 
 {
     "definition": "0 0/5 * * * ?",

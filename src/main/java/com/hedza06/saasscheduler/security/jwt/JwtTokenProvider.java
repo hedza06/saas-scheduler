@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -33,20 +34,18 @@ public class JwtTokenProvider {
     long now = new Date().getTime();
     Date accessTokenValidity = new Date(now + tokenValidityInMinutes * 60_000);
 
-    var encryptKey = Keys.hmacShaKeyFor(secretKey.getBytes());
     return Jwts.builder()
         .subject(subject)
         .claim(AUTH_KEY, "app-manager")
-        .signWith(encryptKey)
+        .signWith(getSecretKey())
+        .issuedAt(new Date())
         .expiration(accessTokenValidity)
         .compact();
   }
 
   public Authentication getAuthentication(String token) {
-    var decryptKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-
     Claims claims = Jwts.parser()
-        .decryptWith(decryptKey)
+        .verifyWith(getSecretKey())
         .build()
         .parseSignedClaims(token)
         .getPayload();
@@ -61,8 +60,12 @@ public class JwtTokenProvider {
   }
 
   public boolean isValid(String authToken) {
-    var key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-    Jwts.parser().decryptWith(key).build().parse(authToken);
+    Jwts.parser().verifyWith(getSecretKey()).build().parse(authToken);
     return true;
+  }
+
+  private SecretKey getSecretKey() {
+    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    return Keys.hmacShaKeyFor(keyBytes);
   }
 }
