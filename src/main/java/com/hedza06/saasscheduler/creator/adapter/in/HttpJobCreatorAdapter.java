@@ -11,6 +11,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -46,7 +47,10 @@ class HttpJobCreatorAdapter implements JobCreatorUseCase {
     putRequestHeadersIfExists(jobData, createCommand.requestHeaders());
 
     return JobBuilder.newJob(HttpJobExecutor.class)
-        .withIdentity(UUID.randomUUID().toString(), "app-name-here")
+        .withIdentity(
+            UUID.randomUUID().toString(),
+            SecurityContextHolder.getContext().getAuthentication().getName()
+        )
         .withDescription(createCommand.description() + "_JOB_DETAIL")
         .setJobData(jobData)
         .storeDurably()
@@ -56,7 +60,10 @@ class HttpJobCreatorAdapter implements JobCreatorUseCase {
   private Trigger createJobTrigger(JobCreateCommand createCommand, JobDetail jobDetail) {
     return TriggerBuilder.newTrigger()
         .forJob(jobDetail)
-        .withIdentity(jobDetail.getKey().getName(), "app-name-here")
+        .withIdentity(
+            jobDetail.getKey().getName(),
+            SecurityContextHolder.getContext().getAuthentication().getName()
+        )
         .withDescription(createCommand.description() + "_CRON_TRIGGER")
         .startAt(Date.from(Instant.now()))
         .withSchedule(CronScheduleBuilder.cronSchedule(createCommand.definition()))
