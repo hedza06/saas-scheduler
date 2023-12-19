@@ -50,13 +50,13 @@ public class JwtTokenProvider {
         .parseSignedClaims(token)
         .getPayload();
 
-    String username = claims.getSubject();
+    String subject = claims.getSubject();
     Collection<? extends GrantedAuthority> authorities = Arrays
         .stream(claims.get(AUTH_KEY).toString().split(","))
         .map(SimpleGrantedAuthority::new)
         .toList();
 
-    return new UsernamePasswordAuthenticationToken(username, "", authorities);
+    return new UsernamePasswordAuthenticationToken(subject, "", authorities);
   }
 
   public boolean isValid(String authToken) {
