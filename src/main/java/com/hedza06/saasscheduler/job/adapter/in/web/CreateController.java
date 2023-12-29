@@ -1,7 +1,7 @@
-package com.hedza06.saasscheduler.creator.adapter.in.web;
+package com.hedza06.saasscheduler.job.adapter.in.web;
 
-import com.hedza06.saasscheduler.creator.application.port.in.JobCreatorUseCase;
-import com.hedza06.saasscheduler.creator.application.port.in.JobCreatorUseCase.JobCreateCommand;
+import com.hedza06.saasscheduler.job.application.port.in.CreateJobUseCase;
+import com.hedza06.saasscheduler.job.application.port.in.CreateJobUseCase.CreateJobCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/job-creator")
-public class JobCreatorController {
+@RequestMapping("/api/job/create")
+public class CreateController {
 
-  private final JobCreatorUseCase jobCreatorUseCase;
+  private final CreateJobUseCase createJobUseCase;
 
 
-  @PostMapping("create")
+  @PostMapping
   @SneakyThrows(SchedulerException.class)
-  ResponseEntity<JobCreateResponse> create(@Valid @RequestBody JobCreateCommand command) {
-    var jobIdentity = jobCreatorUseCase.create(command);
+  ResponseEntity<JobCreateResponse> create(@Valid @RequestBody CreateJobCommand command) {
+    var jobIdentity = createJobUseCase.create(command);
     return new ResponseEntity<>(
         new JobCreateResponse(jobIdentity),
         HttpStatus.CREATED

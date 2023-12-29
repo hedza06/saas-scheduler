@@ -81,7 +81,7 @@ public class SecurityConfig {
   public SecurityFilterChain jwtSecurityFilterChain(HttpSecurity http, JwtFilter jwtFilter)
       throws Exception {
     return http
-        .securityMatcher("/api/job-creator/**")
+        .securityMatcher("/api/job/**")
         .csrf(AbstractHttpConfigurer::disable)
         .cors(AbstractHttpConfigurer::disable)
         .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))

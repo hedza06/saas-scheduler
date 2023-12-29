@@ -1,5 +1,6 @@
-package com.hedza06.saasscheduler.executor.adapter.out;
+package com.hedza06.saasscheduler.job.adapter.out;
 
+import com.hedza06.saasscheduler.job.application.port.out.HttpJobExecutorUseCase;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -18,20 +19,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.hedza06.saasscheduler.job.application.JobUtils.REQUEST_BODY;
+import static com.hedza06.saasscheduler.job.application.JobUtils.REQUEST_HEADERS;
+import static com.hedza06.saasscheduler.job.application.JobUtils.URL;
+
 @Slf4j
 @Service
-public class HttpJobExecutor extends QuartzJobBean {
-  public static final String URL = "url";
-  public static final String REQUEST_BODY = "requestBody";
-  public static final String REQUEST_HEADERS = "requestHeaders";
-
+public class HttpJobExecutorAdapter extends QuartzJobBean implements HttpJobExecutorUseCase {
   private final WebClient webClient;
 
-  public HttpJobExecutor() {
+  public HttpJobExecutorAdapter() {
     this.webClient = WebClient.builder()
         .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         .build();
   }
+
 
   @Override
   protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
