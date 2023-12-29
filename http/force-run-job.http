@@ -1,5 +1,5 @@
 ### Force run scheduled Http Job
-PUT http://localhost:8080/api/job/http/force-run/a38f2230-e5ba-43d3-9572-da90c75e9689
+PUT http://localhost:8080/api/job/http/force-run/{job-id-goes-here}
 Content-Type: application/json
 Authorization: Bearer jwt-token-goes-here
 
