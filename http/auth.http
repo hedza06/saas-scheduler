@@ -2,4 +2,4 @@
 ### Provide plain admin token for specific app
 GET http://localhost:8080/api/auth/access-token
 Content-Type: application/json
-X-ADMIN-TOKEN: generated-plain-admin-token-for-specific-app
+X-ADMIN-TOKEN: plain-admin-token-for-specific-app-goes-here

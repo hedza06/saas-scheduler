@@ -1,7 +1,7 @@
-package com.hedza06.saasscheduler.creator.adapter.in;
+package com.hedza06.saasscheduler.job.adapter.in;
 
-import com.hedza06.saasscheduler.creator.application.port.in.JobCreatorUseCase;
-import com.hedza06.saasscheduler.executor.adapter.out.HttpJobExecutor;
+import com.hedza06.saasscheduler.job.adapter.out.HttpJobExecutorAdapter;
+import com.hedza06.saasscheduler.job.application.port.in.CreateJobUseCase;
 import lombok.RequiredArgsConstructor;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
@@ -13,25 +13,24 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
-import static java.util.Collections.singletonList;
-import static org.apache.commons.collections4.MapUtils.isNotEmpty;
+import static com.hedza06.saasscheduler.job.application.JobUtils.URL;
+import static com.hedza06.saasscheduler.job.application.JobUtils.putRequestBodyIfExists;
+import static com.hedza06.saasscheduler.job.application.JobUtils.putRequestHeadersIfExists;
 
 @Service
 @RequiredArgsConstructor
-class HttpJobCreatorAdapter implements JobCreatorUseCase {
+class HttpCreateJobAdapter implements CreateJobUseCase {
 
   private final Scheduler scheduler;
 
+
   @Override
-  public String create(JobCreateCommand createCommand) throws SchedulerException {
+  public String create(CreateJobCommand createCommand) throws SchedulerException {
     var jobDetail = createJobDetail(createCommand);
     var jobTrigger = createJobTrigger(createCommand, jobDetail);
 
@@ -40,13 +39,13 @@ class HttpJobCreatorAdapter implements JobCreatorUseCase {
     return jobDetail.getKey().getName();
   }
 
-  private JobDetail createJobDetail(JobCreateCommand createCommand) {
+  private JobDetail createJobDetail(CreateJobCommand createCommand) {
     var jobData = new JobDataMap();
-    jobData.put(HttpJobExecutor.URL, createCommand.url());
+    jobData.put(URL, createCommand.url());
     putRequestBodyIfExists(jobData, createCommand.requestBody());
     putRequestHeadersIfExists(jobData, createCommand.requestHeaders());
 
-    return JobBuilder.newJob(HttpJobExecutor.class)
+    return JobBuilder.newJob(HttpJobExecutorAdapter.class)
         .withIdentity(
             UUID.randomUUID().toString(),
             SecurityContextHolder.getContext().getAuthentication().getName()
@@ -57,7 +56,7 @@ class HttpJobCreatorAdapter implements JobCreatorUseCase {
         .build();
   }
 
-  private Trigger createJobTrigger(JobCreateCommand createCommand, JobDetail jobDetail) {
+  private Trigger createJobTrigger(CreateJobCommand createCommand, JobDetail jobDetail) {
     return TriggerBuilder.newTrigger()
         .forJob(jobDetail)
         .withIdentity(
@@ -68,21 +67,5 @@ class HttpJobCreatorAdapter implements JobCreatorUseCase {
         .startAt(Date.from(Instant.now()))
         .withSchedule(CronScheduleBuilder.cronSchedule(createCommand.definition()))
         .build();
-  }
-
-  private void putRequestBodyIfExists(JobDataMap jobDataMap, Map<String, Object> requestBody) {
-    if (isNotEmpty(requestBody)) {
-      jobDataMap.put(HttpJobExecutor.REQUEST_BODY, requestBody);
-    }
-  }
-
-  private void putRequestHeadersIfExists(JobDataMap jobDataMap,
-                                         Map<String, String> requestHeaders) {
-    if (isNotEmpty(requestHeaders)) {
-      MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-      requestHeaders.forEach((key, value) -> headers.put(key, singletonList(value)));
-
-      jobDataMap.put(HttpJobExecutor.REQUEST_HEADERS, headers);
-    }
   }
 }

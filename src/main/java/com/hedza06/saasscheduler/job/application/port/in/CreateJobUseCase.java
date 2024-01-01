@@ -1,4 +1,4 @@
-package com.hedza06.saasscheduler.creator.application.port.in;
+package com.hedza06.saasscheduler.job.application.port.in;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,11 +7,11 @@ import org.quartz.SchedulerException;
 
 import java.util.HashMap;
 
-public interface JobCreatorUseCase {
+public interface CreateJobUseCase {
 
-  String create(JobCreateCommand createCommand) throws SchedulerException;
+  String create(CreateJobCommand createCommand) throws SchedulerException;
 
-  record JobCreateCommand(
+  record CreateJobCommand(
       @NotNull(message = "Definition is missing")
       @NotEmpty(message = "Definition is empty")
       @NotBlank(message = "Invalid definition")
